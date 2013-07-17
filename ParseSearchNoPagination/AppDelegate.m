@@ -12,7 +12,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    #warning Set your APPID & clientKey here
+    [Parse setApplicationId:@"APPiD" clientKey:@"ClientKey"];
+
     return YES;
 }
 							
