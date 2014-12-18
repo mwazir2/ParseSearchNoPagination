@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>39E4FC83-63A6-478C-A178-D9DD0AB9F08A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ParseSearchNoPagination</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DB73D8C5-012A-49DC-84E4-811F548C3FD0</key>
+		<string>https://github.com/mwazir2/ParseSearchNoPagination.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ParseSearchNoPagination.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DB73D8C5-012A-49DC-84E4-811F548C3FD0</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/mwazir2/ParseSearchNoPagination.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DB73D8C5-012A-49DC-84E4-811F548C3FD0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DB73D8C5-012A-49DC-84E4-811F548C3FD0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ParseSearchNoPagination</string>
+		</dict>
+	</array>
+</dict>
+</plist>

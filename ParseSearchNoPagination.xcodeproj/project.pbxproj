@@ -17,7 +17,6 @@
 		675BC7F81795413900A960F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 675BC7F71795413900A960F8 /* Default@2x.png */; };
 		675BC7FA1795413900A960F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 675BC7F91795413900A960F8 /* Default-568h@2x.png */; };
 		675BC7FD1795413900A960F8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 675BC7FB1795413900A960F8 /* MainStoryboard.storyboard */; };
-		675BC8071795419300A960F8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675BC8061795419200A960F8 /* Parse.framework */; };
 		675BC809179541AF00A960F8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675BC808179541AF00A960F8 /* SystemConfiguration.framework */; };
 		675BC80B179541B600A960F8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675BC80A179541B600A960F8 /* StoreKit.framework */; };
 		675BC80D179541BB00A960F8 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675BC80C179541BB00A960F8 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -36,6 +35,7 @@
 		678DE43C17956619001B70C7 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 678DE43B17956619001B70C7 /* NothingFoundCell.xib */; };
 		678DE43F1796272B001B70C7 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 678DE43D1796272B001B70C7 /* home.png */; };
 		678DE4401796272B001B70C7 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678DE43E1796272B001B70C7 /* home@2x.png */; };
+		679B72ED180799E90024B448 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 679B72EC180799E90024B448 /* Parse.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,6 @@
 		675BC7F71795413900A960F8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		675BC7F91795413900A960F8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		675BC7FC1795413900A960F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		675BC8061795419200A960F8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		675BC808179541AF00A960F8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		675BC80A179541B600A960F8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		675BC80C179541BB00A960F8 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -74,6 +73,7 @@
 		678DE43B17956619001B70C7 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NothingFoundCell.xib; path = ../NothingFoundCell.xib; sourceTree = "<group>"; };
 		678DE43D1796272B001B70C7 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		678DE43E1796272B001B70C7 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
+		679B72EC180799E90024B448 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +87,7 @@
 				675BC81B179541EA00A960F8 /* CFNetwork.framework in Frameworks */,
 				675BC819179541E400A960F8 /* CoreLocation.framework in Frameworks */,
 				675BC817179541DE00A960F8 /* libsqlite3.dylib in Frameworks */,
+				679B72ED180799E90024B448 /* Parse.framework in Frameworks */,
 				675BC815179541D800A960F8 /* libz.1.1.3.dylib in Frameworks */,
 				675BC813179541D000A960F8 /* MobileCoreServices.framework in Frameworks */,
 				675BC811179541CA00A960F8 /* QuartzCore.framework in Frameworks */,
@@ -97,7 +98,6 @@
 				675BC7E41795413900A960F8 /* UIKit.framework in Frameworks */,
 				675BC7E61795413900A960F8 /* Foundation.framework in Frameworks */,
 				675BC7E81795413900A960F8 /* CoreGraphics.framework in Frameworks */,
-				675BC8071795419300A960F8 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +124,7 @@
 		675BC7E21795413900A960F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				679B72EC180799E90024B448 /* Parse.framework */,
 				675BC8201795421900A960F8 /* Accounts.framework */,
 				675BC81E179541F500A960F8 /* AudioToolbox.framework */,
 				675BC81C179541EF00A960F8 /* AdSupport.framework */,
@@ -137,7 +138,6 @@
 				675BC80C179541BB00A960F8 /* Social.framework */,
 				675BC80A179541B600A960F8 /* StoreKit.framework */,
 				675BC808179541AF00A960F8 /* SystemConfiguration.framework */,
-				675BC8061795419200A960F8 /* Parse.framework */,
 				675BC7E31795413900A960F8 /* UIKit.framework */,
 				675BC7E51795413900A960F8 /* Foundation.framework */,
 				675BC7E71795413900A960F8 /* CoreGraphics.framework */,
@@ -336,7 +336,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/Wazir/Documents/iOS\\ Dev/Refrences/ParseSearchNoPagination",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ParseSearchNoPagination/ParseSearchNoPagination-Prefix.pch";
@@ -352,7 +353,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/Wazir/Documents/iOS\\ Dev/Refrences/ParseSearchNoPagination",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ParseSearchNoPagination/ParseSearchNoPagination-Prefix.pch";

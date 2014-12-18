@@ -13,7 +13,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     #warning Set your APPID & clientKey here
-    [Parse setApplicationId:@"APPiD" clientKey:@"ClientKey"];
+    [Parse setApplicationId:@"3YP8mixbeflg0Wp6AffjwYF0nCS5i9yLLagRlv6l" clientKey:@"YqZPE9A4DvVUhpnAcquiwPSqXMA1LxOP3Ykt4omS"];
 
     return YES;
 }

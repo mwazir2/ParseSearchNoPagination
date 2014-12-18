@@ -15,8 +15,8 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
 @property (nonatomic, weak) IBOutlet UISearchBar *searchedBar;
 @property (nonatomic, strong) NSString *mainTitle;
 @property (nonatomic, strong) NSString *subTitle;
-@property (nonatomic, strong) NSMutableArray *searchResults;
-@property (nonatomic, assign) BOOL shouldReloadOnAppear;
+@property (nonatomic, assign) BOOL canSearch;
+
 @end
 
 @implementation SearchViewController {
@@ -26,24 +26,23 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
 @synthesize searchedBar;
 @synthesize mainTitle;
 @synthesize subTitle;
-@synthesize searchResults;
-@synthesize shouldReloadOnAppear;
+@synthesize canSearch;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
         
-        // I created a dummy class to avoid it automatically download data
-        self.parseClassName = @"dummy";
+        #warning Set your Parse Class Name here
+        self.parseClassName = @"Countries";
         
         //self.textKey = @"restaurantName";
         
         self.pullToRefreshEnabled = YES;
         
-        self.paginationEnabled = NO;
+        self.paginationEnabled = YES;
         
-        self.objectsPerPage = 10;
+        self.objectsPerPage = 5;
     }
     return self;
 }
@@ -58,25 +57,18 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
 
 #pragma mark - UIViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UINib *cellNib = [UINib nibWithNibName:NothingFoundCellIdentifier bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:NothingFoundCellIdentifier];
-    
+
     [self.searchedBar becomeFirstResponder];
     
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.canSearch = 0;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -100,25 +92,14 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [searchResults removeAllObjects];
     
-    [searchedBar resignFirstResponder];
+    [self clear];
     
-    searchResults = [NSMutableArray arrayWithCapacity:10];
+    self.canSearch = 1;
     
-    #warning Put your ClassName here
-    PFQuery *query = [PFQuery queryWithClassName:@"HERE"];
+    [self.searchedBar resignFirstResponder];
     
-    #warning put key that you want to search here
-    [query whereKey:@"HERE" containsString:searchedBar.text];
-    
-    NSArray *results = [query findObjects];
-    
-    [searchResults addObjectsFromArray:results];
-    
-    #warning put your key here
-    [query orderByAscending:@"HERE"];
-    
+    [self queryForTable];
     [self loadObjects];
     
 }
@@ -131,23 +112,39 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
     // This method is called before a PFQuery is fired to get more objects
 }
 
-- (void)objectsDidLoad:(NSError *)error {
-    [super objectsDidLoad:error];
-    
-    // This method is called every time objects are loaded from Parse via the PFQuery
-}
-
 #pragma mark - Query
-/*
- - (PFQuery *)queryForTable
- {
- NSError *error = [[NSError alloc] init];
- [super objectsDidLoad:error];
- 
- return nil;
- }
- */
 
+- (PFQuery *)queryForTable {
+    
+    PFQuery *query;
+    
+    if (self.canSearch == 0) {
+        query = [PFQuery queryWithClassName:self.parseClassName];
+    } else {
+        query = [PFQuery queryWithClassName:self.parseClassName];
+        
+        NSString *searchThis = [searchedBar.text lowercaseString];
+        #warning key you wanted to search here
+        [query whereKey:@"Name" containsString:searchThis];
+    }
+    
+    [query orderByAscending:@"Name"];
+
+    // If Pull To Refresh is enabled, query against the network by default.
+     if (self.pullToRefreshEnabled) {
+         query.cachePolicy = kPFCachePolicyNetworkOnly;
+     }
+     
+     // If no objects are loaded in memory, we look to the cache first to fill the table
+     // and then subsequently do a query against the network.
+     if (self.objects.count == 0) {
+         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+     }
+     
+     return query;
+}
+ 
+/*
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (searchResults == nil) {
@@ -155,21 +152,23 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
     } else if ([searchResults count] == 0) {
         return 1;
     } else {
-        return [searchResults count];
+        return [self.objects count];
     }
 }
+*/
 
 - (void)configureSearchResult:(SearchedResultCell *)cell atIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
 {
     #warning put your main key to display here
-    mainTitle = [object objectForKey:@"HERE"];
+    mainTitle = [object objectForKey:@"Name"];
     cell.mainTitle.text = mainTitle;
     
-    #warning put your another key to display here
-    subTitle = [object objectForKey:@"HERE"];
+    #warning put your secondary key to display here
+    subTitle = [object objectForKey:@"Capital"];
     cell.detail.text = subTitle;
 
-    
+    /*
+    // Implement this if you want to Show image
     cell.showImage.image = [UIImage imageNamed:@"home.png"];
     
     #warning put your file key here
@@ -179,12 +178,12 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
         cell.showImage.file = imageFile;
         [cell.showImage loadInBackground];
     }
-    
+    */
 }
 
 
 // Set CellForRowAtIndexPath
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
 {
     static NSString *CellIdentifier = @"SearchResultCell";
     
@@ -195,105 +194,50 @@ static NSString *const NothingFoundCellIdentifier = @"NothingFoundCell";
         
     }
     
-    if ([searchResults count] == 0) {
-        //cell.mainTitle.text = @"Nothing Found";
-        return [tableView dequeueReusableCellWithIdentifier:NothingFoundCellIdentifier];
-    } else {
-    #warning put your ClassName here
-        PFObject *object = [PFObject objectWithClassName:@"HERE"];
-        object = [searchResults objectAtIndex:indexPath.row];
-        [self configureSearchResult:cell atIndexPath:indexPath object:object];
-    }
-    
+    [self configureSearchResult:cell atIndexPath:indexPath object:object];
     
     return cell;
 }
 
-
-/*
- // Override if you need to change the ordering of objects in the table.
- - (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
- return [self.objects objectAtIndex:indexPath.row];
- }
- */
-
-// Override to customize the look of the cell that allows the user to load the next page of objects.
-// The default implementation is a UITableViewCellStyleDefault cell with simple labels.
-
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"NextPage";
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
     }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Load more...";
-    
     return cell;
 }
-*/
 
-#pragma mark - UITableViewDataSource
+// Set TableView Height for Load Next Page
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self.objects count] == indexPath.row) {
+        // Load More Cell Height
+        return 60.0;
+    } else {
+        return 80.0;
+    }
+}
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the object from Parse and reload the table view
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, and save it to Parse
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [searchedBar resignFirstResponder];
-    
-    PFObject *photo = [searchResults objectAtIndex:indexPath.row];
-    NSLog(@"%@", photo);
-}
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([searchResults count] == 0) {
-        return nil;
+    if ([self.objects count] == indexPath.row) {
+        [self loadNextPage];
     } else {
-        return indexPath;
+        PFObject *photo = [self.objects objectAtIndex:indexPath.row];
+        NSLog(@"%@", photo);
+        
+        // Do something you want after selected the cell
     }
 }
-
 
 #pragma mark - UIScrollViewDelegate
 
